@@ -12,6 +12,11 @@ public class Empresa {
         this.nombre = nombre;
         this.telefono = telefono;
     }
+
+    @Override
+    public String toString() {
+        return nombre + " - telefono: " + telefono;
+    }
     
     
 }

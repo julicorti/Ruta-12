@@ -20,6 +20,19 @@ public class Pasillo {
     public void setEstanterias(ArrayList<Estanteria> estanterias) {
         this.estanterias = estanterias;
     }
+
+    public char getSector() {
+        return sector;
+    }
+
+    public void setSector(char sector) {
+        this.sector = sector;
+    }
+
+    @Override
+    public String toString() {
+        return "Pasillo{" + "estanterias=" + estanterias + ", sector=" + sector + '}';
+    }
     
    public int contPallets(){
         int sumaTotal = 0;
@@ -30,4 +43,14 @@ public class Pasillo {
         }
         return sumaTotal;
     } 
+   public int agregarPallets(int cantidad) {
+        for(Estanteria e : this.estanterias){
+           cantidad = e.agregarPallets(cantidad);
+           if(cantidad == 0){
+               break;
+           }
+        }
+       return cantidad;
+       //negro
+    }
 }

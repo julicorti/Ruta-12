@@ -6,14 +6,18 @@ import java.time.LocalDate;
 public class Informe {
     private Empresa empresa;
     public LocalDate fecha = LocalDate.now();
-
-    public Informe(Empresa empresa) {
+    private String ubicacion;
+    public Informe(Empresa empresa, String ubicacion ) {
         this.empresa = empresa;
+        this.ubicacion = ubicacion;
     }
-   public void informe(){
+   public String mostrarDatos(){
         String text = "";
-        text = "Empresa: " + this.empresa;
-        
-       
+        text += "---Informe de retiro---" ;
+        text += "\nEmpresa: " + this.empresa.toString();
+        text += "\nUbicacion: " + this.ubicacion;    
+        text += "\nFecha: " + this.fecha;
+        return text;
+            
    }
 }

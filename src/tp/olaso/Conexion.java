@@ -3,6 +3,7 @@ package tp.olaso;
 import java.sql.DriverManager;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
@@ -36,12 +37,29 @@ public class Conexion {
         }
     }
     public static void main(String[] args){
+        ArrayList<Pasillo> pasillos = new ArrayList<>(); 
+        pasillos.add(new Pasillo('A'));
+        pasillos.add(new Pasillo('B'));
+        
         JPanel interfaz = new JPanel();
         Conexion conexion = new Conexion("cecytem");
         conexion.conectar();
-        Pasillo pA = new Pasillo('A');
-        Pasillo pB = new Pasillo('B');
-        
+       
+        Empresa emp1 = new Empresa("Mattel", 1124613507);
+    
+        //System.out.println(pA.estanterias.get(0).agregarPallets(1));
+        System.out.println(agregarPallets(pasillos, 17));
         
     }
+    public static int agregarPallets(ArrayList<Pasillo> pasillos, int cantidad){
+        for(Pasillo p : pasillos){
+           cantidad = p.agregarPallets(cantidad);
+           if(cantidad == 0){
+               break;
+           }
+        }
+       return cantidad;
+       //negro
+    }
+    
 }       

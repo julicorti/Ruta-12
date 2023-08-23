@@ -2,7 +2,7 @@ package tp.olaso;
 
 public class Pallet {
 
-    private boolean disponible = false;
+    private boolean disponible = true;
     private char sector;
     private int numEstanteria;
     private int numPallet;
@@ -12,6 +12,7 @@ public class Pallet {
         this.numEstanteria = numEstanteria;
         this.sector = sector;
         this.ubicacion = sector + "" + numEstanteria + "" + numPallet;
+     
     }
 
     public boolean isDisponible() {
@@ -26,6 +27,7 @@ public class Pallet {
         if(disponible){
         disponible = false;
         return new Informe(e, this.ubicacion);
+        
         }else{
             System.out.println("***Error***");
             System.out.println("No se puede llevar pallet " + this.ubicacion);
@@ -37,5 +39,13 @@ public class Pallet {
     public String toString() {
         return "Pallet: " + "disponible: " + disponible + ", sector: " + sector + ", numEstanteria: " + numEstanteria + ", numPallet: " + numPallet;
     }
-    
+    public int agregarPallet(){
+        if(this.disponible){
+            
+            return 0;
+        }else{
+            this.disponible = true;
+            return 1;
+        }
+    }
 }
