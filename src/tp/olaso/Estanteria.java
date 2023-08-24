@@ -22,7 +22,18 @@ public class Estanteria {
 
     @Override
     public String toString() {
-        return "Estanteria{" + "pallets=" + pallets + ", sector=" + sector + ", numEstanteria=" + numEstanteria + '}';
+        return "pallets: " + pallets + ", sector=" + sector + ", numEstanteria=" + numEstanteria + '}';
+    }
+
+    public String showContent() {
+        String text = "";
+
+        text += "Pallets: ";
+        for (Pallet p : this.pallets) {
+            text += "\n" + p.toString();
+
+        }
+        return text;
     }
 
     public char getSector() {
@@ -57,19 +68,34 @@ public class Estanteria {
     }
 
     public int agregarPallets(int cantidad) {
-        
-        for(Pallet p : this.pallets){
-            
-           cantidad = cantidad - p.agregarPallet();
-           if(cantidad == 0){
-              
-               break;
-               
-            
-           }
+
+        for (Pallet p : this.pallets) {
+
+            cantidad = cantidad - p.agregarPallet();
+            if (cantidad == 0) {
+
+                break;
+
+            }
         }
-        
-       return cantidad;
-      
+
+        return cantidad;
+
+    }
+
+    public int egresarPallets(int cantidad) {
+
+        for (Pallet p : this.pallets) {
+
+            cantidad = cantidad - p.egresarPallet();
+            if (cantidad == 0) {
+
+                break;
+
+            }
+        }
+
+        return cantidad;
+
     }
 }

@@ -51,6 +51,16 @@ public class Pasillo {
            }
         }
        return cantidad;
-       //negro
+    
+    }
+    public int egresarPallets(int cantidad) {
+        for(Estanteria e : this.estanterias){
+           cantidad = e.egresarPallets(cantidad);
+           if(cantidad == 0){
+               break;
+           }
+        }
+       return cantidad;
+      
     }
 }
