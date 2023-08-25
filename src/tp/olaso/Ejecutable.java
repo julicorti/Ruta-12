@@ -1,51 +1,18 @@
 package tp.olaso;
 
-import java.sql.DriverManager;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JPanel;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+
 ////base de datos
-
-public class Conexion {
-
-    static Scanner teclado = new Scanner(System.in);
-    String bd = "cecytem";
-    String url = "jdbc:mysql://localhost:3306/";
-    String user = "rene";
-    String password = "8)jfm7mExnnWVsxa";
-    String driver = "com.mysql.cj.jdbc.Driver";
-    Connection cx;
-
-    public Conexion(String bd) {
-        this.bd = bd;
-    }
-
-    public Connection conectar() {
-        try {
-            Class.forName(driver);
-            cx = DriverManager.getConnection(url + bd, user, password);
-            System.out.println("SE CONECTO A BD " + bd);
-        } catch (ClassNotFoundException | SQLException ex) {
-            System.out.println("NO SE CONECTO A BD " + bd);
-            //Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return cx;
-    }
-
-    public void deconectar() {
-        try {
-            cx.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
+public class Ejecutable {
+ static Scanner teclado = new Scanner(System.in);
     /////////
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
+        
         ArrayList<Pasillo> pasillos = new ArrayList<>();
         pasillos.add(new Pasillo('A'));
         pasillos.add(new Pasillo('B'));
@@ -55,13 +22,12 @@ public class Conexion {
         pasillos.add(new Pasillo('G'));
         pasillos.add(new Pasillo('H'));
 
-        Conexion conexion = new Conexion("cecytem");
-        conexion.conectar();
-
+        Connection con = SqlConnection.getConnection();
+       
         //System.out.println(pA.estanterias.get(0).agregarPallets(1));
         //Variables
         int cantidad;
-        
+
         boolean seguir = true;
         while (seguir) {
             int opc = menu();
@@ -87,11 +53,20 @@ public class Conexion {
 
                 int respuesta = egresoPallet(pasillos, cantidad, emp);
                 if (respuesta > 0) {
+
                     System.out.println("***No hay mas pallets para retirar***");
 
                 }
-                Informe i = new Informe(emp, cantidad);
-                System.out.println(i.mostrarDatos());
+                if (cantidad - respuesta != 0) {
+                    Informe i = new Informe(emp, cantidad - respuesta);
+                    System.out.println(i.mostrarDatos());
+                     PreparedStatement ps  =  con.prepareStatement("INSERT INTO informes(nombreEmpresa, telefono, cantidad, fecha) values(?,?,?,?);"); 
+                    ps.setString(1, i.getEmpresa().nombre);
+                    ps.setInt(2, i.getEmpresa().telefono);
+                    ps.setInt(3, cantidad - respuesta);
+                    ps.setString(4, i.getFecha().toString());
+                    ps.executeUpdate();
+                }
 
             } else if (opc == 3) {
                 String text = "";
@@ -162,7 +137,7 @@ public class Conexion {
         return opc;
     }
 
-    public static int telefono() {
+    /*public static int telefono() {
         int[] digitos = new int[11];
         int tam = 0;
         String cadena = "";
@@ -179,4 +154,5 @@ public class Conexion {
        
         return digitos;
     }
+     */
 }

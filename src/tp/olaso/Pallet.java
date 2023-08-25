@@ -1,8 +1,14 @@
 package tp.olaso;
 
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class Pallet {
 
-    private Producto producto = null;
+  
     private boolean disponible = false;
     private char sector;
     private int numEstanteria;
@@ -17,6 +23,8 @@ public class Pallet {
 
     }
 
+    
+
     public boolean isDisponible() {
         return disponible;
     }
@@ -25,15 +33,6 @@ public class Pallet {
         this.disponible = disponible;
     }
 
-    
-
-    public Producto getProducto() {
-        return producto;
-    }
-
-    public void setProducto(Producto producto) {
-        this.producto = producto;
-    }
 
     public char getSector() {
         return sector;
@@ -78,6 +77,7 @@ public class Pallet {
             return 0;
         } else {
             this.disponible = true;
+           
             return 1;
         }
     }
@@ -85,6 +85,7 @@ public class Pallet {
     public int egresarPallet() {
         if (this.disponible) {
             this.disponible = false;
+    
             return 1;
 
         } else {
@@ -92,5 +93,35 @@ public class Pallet {
             return 0;
         }
     }
+    public void add(Pallet p) throws SQLException {
+        Connection con = SqlConnection.getConnection();
+        
+        String query;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
 
+        try {          
+            query = "INSERT INTO (sector, numEstanteria, numPallet) values(?,?,?,?,?,?);";
+           ps = con.prepareStatement(query);
+           ps.setString(3, p.getUbicacion());
+           ps.setInt(1, p.numPallet);
+          
+            
+           
+            ps.executeUpdate();
+           
+        }catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            try {
+                if (rs != null && ps != null) {
+                    rs.close();
+                    ps.close();
+                }
+            } catch (SQLException e) {
+                System.out.println(e);
+            }
+        }
+    
+    }
 }

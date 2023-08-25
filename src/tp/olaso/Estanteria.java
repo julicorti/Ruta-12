@@ -70,7 +70,7 @@ public class Estanteria {
     public int agregarPallets(int cantidad) {
 
         for (Pallet p : this.pallets) {
-
+            
             cantidad = cantidad - p.agregarPallet();
             if (cantidad == 0) {
 
