@@ -6,13 +6,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-
 ////base de datos
 public class Ejecutable {
- static Scanner teclado = new Scanner(System.in);
+
+    static Scanner teclado = new Scanner(System.in);
+
     /////////
     public static void main(String[] args) throws SQLException {
-        
+
         ArrayList<Pasillo> pasillos = new ArrayList<>();
         pasillos.add(new Pasillo('A'));
         pasillos.add(new Pasillo('B'));
@@ -23,7 +24,7 @@ public class Ejecutable {
         pasillos.add(new Pasillo('H'));
 
         Connection con = SqlConnection.getConnection();
-       
+
         //System.out.println(pA.estanterias.get(0).agregarPallets(1));
         //Variables
         int cantidad;
@@ -46,7 +47,7 @@ public class Ejecutable {
                 String nombreEmpresa = teclado.next();
                 System.out.println("Ingrese el telefono: ");
                 int telEmpresa = teclado.nextInt();
-
+                
                 Empresa emp = new Empresa(nombreEmpresa, telEmpresa);
                 System.out.println("Ingrese la cantidad de pallets que va a retirar: ");
                 cantidad = teclado.nextInt();
@@ -60,7 +61,7 @@ public class Ejecutable {
                 if (cantidad - respuesta != 0) {
                     Informe i = new Informe(emp, cantidad - respuesta);
                     System.out.println(i.mostrarDatos());
-                     PreparedStatement ps  =  con.prepareStatement("INSERT INTO informes(nombreEmpresa, telefono, cantidad, fecha) values(?,?,?,?);"); 
+                    PreparedStatement ps = con.prepareStatement("INSERT INTO informes(nombreEmpresa, telefono, cantidad, fecha) values(?,?,?,?);");
                     ps.setString(1, i.getEmpresa().nombre);
                     ps.setInt(2, i.getEmpresa().telefono);
                     ps.setInt(3, cantidad - respuesta);
@@ -89,18 +90,22 @@ public class Ejecutable {
                 System.out.println(text);
                 int estanteria = teclado.nextInt();
                 System.out.println(pasillos.get(pasillo).estanterias.get(estanteria).showContent());
+            } else {
+                System.out.println("***OPCION INCORRECTA***");
+                continue;
             }
             System.out.println("Desea seguir? si/no");
             String opc2 = teclado.next();
 
             if (opc2.equalsIgnoreCase("no")) {
+                
                 break;
             }
 
         }
     }
 
-    public static int agregarPallets(ArrayList<Pasillo> pasillos, int cantidad) {
+    public static int agregarPallets(ArrayList<Pasillo> pasillos, int cantidad) throws SQLException {
         for (Pasillo p : pasillos) {
             cantidad = p.agregarPallets(cantidad);
             if (cantidad == 0) {
@@ -113,7 +118,7 @@ public class Ejecutable {
 
     }
 
-    public static int egresoPallet(ArrayList<Pasillo> pasillos, int cantidad, Empresa empresa) {
+    public static int egresoPallet(ArrayList<Pasillo> pasillos, int cantidad, Empresa empresa) throws SQLException {
         for (Pasillo p : pasillos) {
             cantidad = p.egresarPallets(cantidad);
             if (cantidad == 0) {
@@ -126,33 +131,20 @@ public class Ejecutable {
     }
 
     public static int menu() {
+        
+
         String text = "";
         text += "---Menu---";
         text += "\n1- Agregar pallet";
         text += "\n2- Egreso pallet";
         text += "\n3- Navegar el deposito";
+
         System.out.println(text);
         System.out.println("Elija la opcion que desee: ");
         int opc = teclado.nextInt();
+
         return opc;
     }
 
-    /*public static int telefono() {
-        int[] digitos = new int[11];
-        int tam = 0;
-        String cadena = "";
-        do {
-            System.out.println("Ingrese el telefono: ");
-            int telEmpresa = teclado.nextInt();
-            cadena = String.valueOf(telEmpresa);
-            tam = cadena.length();
-        } while (tam != 11);
-        for (int i = 0; i < tam; i++) {
-            digitos[i] = Integer.parseInt(cadena);
-           
-        }
-       
-        return digitos;
-    }
-     */
+    
 }

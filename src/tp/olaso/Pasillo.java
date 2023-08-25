@@ -1,13 +1,14 @@
 
 package tp.olaso;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 
 public class Pasillo {
     ArrayList<Estanteria> estanterias = new ArrayList<>();
     public char sector;
-    public Pasillo(char sector) {
+    public Pasillo(char sector) throws SQLException {
         this.sector = sector;
         estanterias.add(new Estanteria(sector, 1));
         estanterias.add(new Estanteria(sector, 2));
@@ -31,7 +32,7 @@ public class Pasillo {
 
     @Override
     public String toString() {
-        return "Pasillo{" + "estanterias=" + estanterias + ", sector=" + sector + '}';
+        return  "estanterias: " + estanterias + ", sector: " + sector;
     }
     
    public int contPallets(){
@@ -43,7 +44,7 @@ public class Pasillo {
         }
         return sumaTotal;
     } 
-   public int agregarPallets(int cantidad) {
+   public int agregarPallets(int cantidad) throws SQLException {
         for(Estanteria e : this.estanterias){
            cantidad = e.agregarPallets(cantidad);
            if(cantidad == 0){
@@ -53,7 +54,7 @@ public class Pasillo {
        return cantidad;
     
     }
-    public int egresarPallets(int cantidad) {
+    public int egresarPallets(int cantidad) throws SQLException {
         for(Estanteria e : this.estanterias){
            cantidad = e.egresarPallets(cantidad);
            if(cantidad == 0){

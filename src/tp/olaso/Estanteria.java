@@ -1,5 +1,6 @@
 package tp.olaso;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Estanteria {
@@ -8,7 +9,7 @@ public class Estanteria {
     private char sector;
     private int numEstanteria;
 
-    public Estanteria(char sector, int numEstanteria) {
+    public Estanteria(char sector, int numEstanteria) throws SQLException {
         this.numEstanteria = numEstanteria;
         this.sector = sector;
         for (int i = 1; i < 5; i++) {
@@ -67,7 +68,7 @@ public class Estanteria {
         return sumaTotal;
     }
 
-    public int agregarPallets(int cantidad) {
+    public int agregarPallets(int cantidad) throws SQLException {
 
         for (Pallet p : this.pallets) {
             
@@ -83,7 +84,7 @@ public class Estanteria {
 
     }
 
-    public int egresarPallets(int cantidad) {
+    public int egresarPallets(int cantidad) throws SQLException {
 
         for (Pallet p : this.pallets) {
 
